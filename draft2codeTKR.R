@@ -385,4 +385,250 @@ title("Updated Forest Plot: TKR, Total PE, LMWH vs FXaI")
 
 ####################################################################
 
+########################
+### Fatal PE
+##############
+
+### LMWH
+as = c(0, 0, 0)
+n1 = c(1529, 1596, 1508)
+
+### FXaI
+cs = c(1, 2, 1)
+n2 = c(1528, 1599, 1526)
+
+### ni for each High risk of bias
+nhigh = c()
+
+
+### Calculate ORs and variances
+ors = escalc(measure = "OR", ai = as, n1i = n1, ci = cs, n2i = n2)
+
+y = ors$yi
+s = sqrt(ors$vi)
+nreported = n1 + n2
+
+### Estimate unreported variances
+kbar = sum(s^-2)/sum(nreported)
+
+sH = sqrt(1/(kbar*nhigh))
+
+unadjusted = CIRE()
+adjusted = b.CI()
+n.high = length(nhigh)
+
+##### Make forest plot
+cites = c(
+  'Lassen2010b	20206776',
+  'Lassen2009	19657123',
+  'Turpie2009	19411100'
+)
+
+temp = data.frame(as = as, n1 = n1, cs = cs, n2 = n2, row.names = NULL)
+test = rma.uni(yi = ors$yi, vi = ors$vi)
+forest(test, slab = cites,
+       ilab = temp,
+       xlim = c(-14, 8),
+       ylim = c(-3, 6),
+       rows = 3,
+       ilab.xpos = c(-7,-6,-5,-4),
+       cex = .8,
+       clim = c(-2, 3),
+       addfit = FALSE,
+       atransf = exp)
+
+addpoly.default(x = unadjusted[2], ci.lb = unadjusted[1], ci.ub = unadjusted[3], 
+                rows = -1, 
+                atransf = exp,
+                cex = .8,
+                mlab = "Maximum Likelihood RE Estimate",
+                col = "Black")
+
+addpoly.default(x = adjusted[2], ci.lb = adjusted[1], ci.ub = adjusted[3], 
+                rows = -2, 
+                atransf = exp,
+                cex = .8,
+                mlab = "ORB Adjusted Estimate",
+                col = "Red")
+
+abline(h = 0)
+text(c(-6.5, -4.5), 6, c("LMWH", "FXaI"))
+text(c(-7,-6,-5,-4), 5, c("n", "N", "n", "N"), cex = .8)
+text(c(-12), 5, c("Author Year PMID"), cex = .8)
+text(c(-1.2, 1.2), 5, c("Favors LMWH", "Favors FXaI"), cex = .8)
+text(c(6), 5, c("Odds Ratio [95% CI]"), cex = .8)
+title("Updated Forest Plot: TKR, Fatal PE, LMWH vs FXaI")
+
+####################################################################
+
+
+########################
+### Symptomatic PE
+##############
+
+### LMWH
+as = c(1, 0, 4, 2, 3, 7, 8, 4, 0)
+n1 = c(90, 1529, 517, 109, 188, 1596, 1508, 1217, 70)
+
+### FXaI
+cs = c(0, 4, 1, 5, 2, 16, 5, 0, 2)
+n2 = c(162, 1528, 517, 621, 561, 1599, 1526, 1201, 296)
+
+### ni for each High risk of bias
+nhigh = c()
+
+
+### Calculate ORs and variances
+ors = escalc(measure = "OR", ai = as, n1i = n1, ci = cs, n2i = n2)
+
+y = ors$yi
+s = sqrt(ors$vi)
+nreported = n1 + n2
+
+### Estimate unreported variances
+kbar = sum(s^-2)/sum(nreported)
+
+sH = sqrt(1/(kbar*nhigh))
+
+unadjusted = CIRE()
+adjusted = b.CI()
+n.high = length(nhigh)
+
+##### Make forest plot
+cites = c(
+  'Fuji2014d	22952213',
+  'Lassen2010b	20206776',
+  'Bauer2001	11794149',
+  'Weitz2010	20886185',
+  'Cohen2013	23782955',
+  'Lassen2009	19657123',
+  'Turpie2009	19411100',
+  'Lassen2008	18579812',
+  'Turpie2005	16241946'
+)
+
+temp = data.frame(as = as, n1 = n1, cs = cs, n2 = n2, row.names = NULL)
+test = rma.uni(yi = ors$yi, vi = ors$vi)
+forest(test, slab = cites,
+       ilab = temp,
+       xlim = c(-14, 8),
+       ylim = c(-3, 12),
+       rows = 9,
+       ilab.xpos = c(-7,-6,-5,-4),
+       cex = .8,
+       clim = c(-2, 3),
+       addfit = FALSE,
+       atransf = exp)
+
+addpoly.default(x = unadjusted[2], ci.lb = unadjusted[1], ci.ub = unadjusted[3], 
+                rows = -1, 
+                atransf = exp,
+                cex = .8,
+                mlab = "Maximum Likelihood RE Estimate",
+                col = "Black")
+
+addpoly.default(x = adjusted[2], ci.lb = adjusted[1], ci.ub = adjusted[3], 
+                rows = -2, 
+                atransf = exp,
+                cex = .8,
+                mlab = "ORB Adjusted Estimate",
+                col = "Red")
+
+abline(h = 0)
+text(c(-6.5, -4.5), 12, c("LMWH", "FXaI"))
+text(c(-7,-6,-5,-4), 11, c("n", "N", "n", "N"), cex = .8)
+text(c(-12), 11, c("Author Year PMID"), cex = .8)
+text(c(-1.2, 1.2), 11, c("Favors LMWH", "Favors FXaI"), cex = .8)
+text(c(6), 11, c("Odds Ratio [95% CI]"), cex = .8)
+title("Updated Forest Plot: TKR, Symptomatic PE, LMWH vs FXaI")
+
+####################################################################
+
+
+
+########################
+### Total DVT
+##############
+
+### LMWH
+as = c(14, 14, 243, 98, 41, 22, 31, 92, 86, 160, 31)
+n1 = c(66, 102, 997, 361, 295, 109, 188, 1122, 1508, 1217, 70)
+
+### FXaI
+cs = c(33, 3, 142, 45, 22, 156, 117, 89, 61, 79, 90)
+n2 = c(152, 112, 971, 361, 299, 621, 561, 1142, 1526, 1201, 296)
+
+### ni for each High risk of bias
+nhigh = c()
+
+
+### Calculate ORs and variances
+ors = escalc(measure = "OR", ai = as, n1i = n1, ci = cs, n2i = n2)
+
+y = ors$yi
+s = sqrt(ors$vi)
+nreported = n1 + n2
+
+### Estimate unreported variances
+kbar = sum(s^-2)/sum(nreported)
+
+sH = sqrt(1/(kbar*nhigh))
+
+unadjusted = CIRE()
+adjusted = b.CI()
+n.high = length(nhigh)
+
+##### Make forest plot
+cites = c(
+  'Fuji2014d	22952213',
+  'Zou2014	24695091',
+  'Lassen2010b	20206776',
+  'Bauer2001	11794149',
+  'Fuji2014c	25294589',
+  'Weitz2010	20886185',
+  'Cohen2013	23782955',
+  'Lassen2009	19657123',
+  'Turpie2009	19411100',
+  'Lassen2008	18579812',
+  'Turpie2005	16241946'
+)
+
+
+temp = data.frame(as = as, n1 = n1, cs = cs, n2 = n2, row.names = NULL)
+test = rma.uni(yi = ors$yi, vi = ors$vi)
+forest(test, slab = cites,
+       ilab = temp,
+       xlim = c(-14, 8),
+       ylim = c(-3, 14),
+       rows = 11,
+       ilab.xpos = c(-7,-6,-5,-4),
+       cex = .8,
+       clim = c(-2, 3),
+       addfit = FALSE,
+       atransf = exp)
+
+addpoly.default(x = unadjusted[2], ci.lb = unadjusted[1], ci.ub = unadjusted[3], 
+                rows = -1, 
+                atransf = exp,
+                cex = .8,
+                mlab = "Maximum Likelihood RE Estimate",
+                col = "Black")
+
+addpoly.default(x = adjusted[2], ci.lb = adjusted[1], ci.ub = adjusted[3], 
+                rows = -2, 
+                atransf = exp,
+                cex = .8,
+                mlab = "ORB Adjusted Estimate",
+                col = "Red")
+
+abline(h = 0)
+text(c(-6.5, -4.5), 14, c("LMWH", "FXaI"))
+text(c(-7,-6,-5,-4), 13, c("n", "N", "n", "N"), cex = .8)
+text(c(-12), 13, c("Author Year PMID"), cex = .8)
+text(c(-1.2, 1.2), 13, c("Favors LMWH", "Favors FXaI"), cex = .8)
+text(c(6), 13, c("Odds Ratio [95% CI]"), cex = .8)
+title("Updated Forest Plot: TKR, Total DVT, LMWH vs FXaI")
+
+####################################################################
+
 
