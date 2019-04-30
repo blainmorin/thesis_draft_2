@@ -802,4 +802,91 @@ title("Updated Forest Plot: TKR, Proximal DVT, LMWH vs FXaI")
 
 ####################################################################
 
+####################################################################
+##### Review Harm TKR
+###########################################
+
+###################
+### Major Bleeding
+##############
+
+### LMWH
+as = c(3, 14, 1, 1, 3, 3, 22, 4, 6, 2)
+n1 = c(90, 1508, 517, 349, 161, 397, 1588, 1508, 1239, 104)
+
+### FXaI
+cs = c(1, 9, 11, 4, 4, 5, 11, 10, 7, 14)
+n2 = c(180, 1501, 517, 354, 877, 992, 1596, 1526, 1220, 509)
+
+### ni for each High risk of bias
+nhigh = c(sum(102, 112))
+
+
+### Calculate ORs and variances
+ors = escalc(measure = "OR", ai = as, n1i = n1, ci = cs, n2i = n2)
+
+y = ors$yi
+s = sqrt(ors$vi)
+nreported = n1 + n2
+
+### Estimate unreported variances
+kbar = sum(s^-2)/sum(nreported)
+
+sH = sqrt(1/(kbar*nhigh))
+
+unadjusted = CIRE()
+adjusted = h.CI()
+n.high = length(nhigh)
+
+##### Make forest plot
+cites = c(
+  'Fuji2014d	22952213',
+  'Lassen2010b	20206776',
+  'Bauer2001	11794149',
+  'Fuji2014c	25294589',
+  'Weitz2010	20886185',
+  'Cohen2013	23782955',
+  'Lassen2009	19657123',
+  'Turpie2009	19411100',
+  'Lassen2008	18579812',
+  'Turpie2005	16241946'
+)
+
+temp = data.frame(as = as, n1 = n1, cs = cs, n2 = n2, row.names = NULL)
+test = rma.uni(yi = ors$yi, vi = ors$vi)
+forest(test, slab = cites,
+       ilab = temp,
+       xlim = c(-14, 8),
+       ylim = c(-3, 13),
+       rows = 10,
+       ilab.xpos = c(-7,-6,-5,-4),
+       cex = .8,
+       addfit = FALSE,
+       clim = c(-2, 4),
+       atransf = exp)
+
+addpoly.default(x = unadjusted[2], ci.lb = unadjusted[1], ci.ub = unadjusted[3], 
+                rows = -1, 
+                atransf = exp,
+                cex = .8,
+                mlab = "Maximum Likelihood RE Estimate",
+                col = "Black")
+
+addpoly.default(x = adjusted[2], ci.lb = adjusted[1], ci.ub = adjusted[3], 
+                rows = -2, 
+                atransf = exp,
+                cex = .8,
+                mlab = "ORB Adjusted Estimate",
+                col = "Red")
+abline(h = 0)
+text(c(-6.5, -4.5), 13, c("LMWH", "FXaI"))
+text(c(-7,-6,-5,-4), 12, c("n", "N", "n", "N"), cex = .8)
+text(c(-12), 12, c("Author Year PMID"), cex = .8)
+text(c(-1.2, 1.2), 12, c("Favors LMWH", "Favors FXaI"), cex = .8)
+text(c(6), 12, c("Odds Ratio [95% CI]"), cex = .8)
+title("Updated Forest Plot: TKR, Major Bleeding, LMWH vs FXaI")
+
+####################################################################
+
+
 
